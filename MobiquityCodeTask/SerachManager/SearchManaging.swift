@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol SearchProviding {
+	func addSearchKey(_ searchItem: String)
+}

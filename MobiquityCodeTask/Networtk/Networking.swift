@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol Networking {
+	func getPhotos(searchText: String, page: Int, completion: @escaping(Result<PhotoResponse, NetworkErrors>) -> Void)
+}

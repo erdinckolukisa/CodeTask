@@ -6,29 +6,50 @@
 //
 
 import UIKit
+import Swinject
+import SwinjectStoryboard
 
-@main
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+	var window: UIWindow?
+	var container: Container = {
+		let container = Container()
+		container.storyboardInitCompleted(MainListViewController.self) { resolver, controller in
+			controller.viewModel = resolver.resolve(MainListViewModel.self)
+		}
+		
+		container.register(Networking.self) { _ in
+			return WebAPI()
+		}
+		
+		container.register(SearchProviding.self) { _ in
+			return SearchProvider()
+		}
+		
+		container.register(MainListViewModel.self) { resolver in
+			guard let networking = resolver.resolve(Networking.self),
+				  let searchProviding = resolver.resolve(SearchProviding.self) else {
+				return MainListViewModel(network: WebAPI(), searchProvider: SearchProvider())
+			}
+			
+			return MainListViewModel(network: networking, searchProvider: searchProviding)
+		}
+		return container
+	}()
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		// Override point for customization after application launch.
+		
+		Container.loggingFunction = nil
+		
+		let window = UIWindow(frame: UIScreen.main.bounds)
+		window.makeKeyAndVisible()
+		self.window = window
+		
+		let storyboard = SwinjectStoryboard.create(name: Constants.storyboardName, bundle: nil, container: container)
+		window.rootViewController = storyboard.instantiateInitialViewController()
+		
 		return true
-	}
-
-	// MARK: UISceneSession Lifecycle
-
-	func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-		// Called when a new scene session is being created.
-		// Use this method to select a configuration to create the new scene with.
-		return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-	}
-
-	func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-		// Called when the user discards a scene session.
-		// If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
 

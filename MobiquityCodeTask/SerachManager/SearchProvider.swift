@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class SearchProvider: SearchProviding {
+final class SearchProvider {
 	
 	private var savedSearchItems = [String]()
 	
@@ -15,8 +15,6 @@ final class SearchProvider: SearchProviding {
 		guard let savedObjects = UserDefaults.standard.value(forKey: Constants.savedItemsKey) as? [String] else { return }
 		savedSearchItems = savedObjects
 	}
-	
-	
 	
 	private func isSearchItemExist(_ searchItem: String) -> Bool {
 		return savedSearchItems.contains(searchItem)
