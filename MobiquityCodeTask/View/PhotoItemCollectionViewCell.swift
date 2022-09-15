@@ -10,7 +10,7 @@ import Kingfisher
 
 class PhotoItemCollectionViewCell: UICollectionViewCell {
 	
-	@IBOutlet weak var photoImageView: UIImageView!
+	@IBOutlet weak var photoImageView: ThumbImageView!
 	
 	func configureCell(with model: PhotoItemViewModel?) {
 		if let photoModel = model, let url = photoModel.imageUrl {
