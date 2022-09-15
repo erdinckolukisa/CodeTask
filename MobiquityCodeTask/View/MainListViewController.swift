@@ -13,7 +13,6 @@ class MainListViewController: UIViewController {
 	
 	var viewModel: MainListViewModel?
 	
-	private var searchText = ""
 	private var searchController = UISearchController()
 	
 	override func viewDidLoad() {
@@ -49,8 +48,6 @@ extension MainListViewController: MainListViewModelDelegate {
 	func didFailFetching(error: NetworkErrors) {
 		// TODO: IMPLEMENT FAIL
 	}
-	
-	
 }
 
 // MARK: - UISearchResultsUpdating
@@ -58,7 +55,7 @@ extension MainListViewController: MainListViewModelDelegate {
 extension MainListViewController: UISearchResultsUpdating {
 	func updateSearchResults(for searchController: UISearchController) {
 		guard let searchText = searchController.searchBar.text, searchText.count > 0 else { return }
-		self.searchText = searchText
+		
 		view.isUserInteractionEnabled = false
 		viewModel?.searchForPhotos(with: searchText)
 	}
@@ -67,18 +64,31 @@ extension MainListViewController: UISearchResultsUpdating {
 // MARK: - UICollectionViewDataSource
 
 extension MainListViewController: UICollectionViewDataSource {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	func collectionView(_ collectionView: UICollectionView,
+						numberOfItemsInSection section: Int) -> Int {
 		return viewModel?.numberOfPhotos ?? 0
 	}
 
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		if let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifiers.photoCell, for: indexPath) as? PhotoItemCollectionViewCell {
+	func collectionView(_ collectionView: UICollectionView,
+						cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		if let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifiers.photoCell,
+															  for: indexPath) as? PhotoItemCollectionViewCell {
 			photoCell.configureCell(with: viewModel?.getPhotoItem(at: indexPath.row))
 
 			return photoCell
 		}
 
 		return PhotoItemCollectionViewCell()
+	}
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension MainListViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView,
+						willDisplay cell: UICollectionViewCell,
+						forItemAt indexPath: IndexPath) {
+		viewModel?.checkForLoadMore(for: indexPath)
 	}
 }
 

@@ -18,6 +18,7 @@ final class MainListViewModel {
 	private let network: Networking
 	private let searchManager: SearchProviding
 	
+	private var searchText = ""
 	private var pageNumber = 1
 	private var workItem: DispatchWorkItem?
 	private var photos: [PhotoItemViewModel] = [PhotoItemViewModel]()
@@ -36,16 +37,18 @@ final class MainListViewModel {
 		if !isLoading {
 			isLoading = true
 			network.getPhotos(searchText: searchText, page: pageNumber) { [weak self] result in
+				guard let self = self else { return }
+				
 				switch result {
 					case .success(let response):
-						self?.pageNumber += 1
+						self.pageNumber += 1
 						let photoViewModels = response.photos?.photo?.compactMap{ PhotoItemViewModel(photo: $0) }
-						self?.photos.append(contentsOf: photoViewModels ?? [])
-						self?.delegate?.didFetchPhotos()
+						self.photos.append(contentsOf: photoViewModels ?? [])
+						self.delegate?.didFetchPhotos()
 					case .failure(let error):
-						self?.delegate?.didFailFetching(error: error)
+						self.delegate?.didFailFetching(error: error)
 				}
-				self?.isLoading = false
+				self.isLoading = false
 			}
 		}
 	}
@@ -53,11 +56,20 @@ final class MainListViewModel {
 	func searchForPhotos(with text: String) {
 		workItem?.cancel()
 		workItem = DispatchWorkItem { [weak self] in
-			self?.photos.removeAll()
-			self?.fetchPhotosFor(searchText: text)
+			guard let self = self else { return }
+			
+			self.photos.removeAll()
+			self.searchText = text
+			self.fetchPhotosFor(searchText: text)
 		}
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: workItem!)
+	}
+	
+	func checkForLoadMore(for indexPath: IndexPath) {
+		if (indexPath.row == (numberOfPhotos - 2)) {
+			fetchPhotosFor(searchText: searchText)
+		}
 	}
 	
 	func getPhotoItem(at index: Int) -> PhotoItemViewModel? {
