@@ -17,3 +17,9 @@ Userdefaults is used for saving searched items. SearchProvider class deals with 
 For networking Networking protocol is created and both WebApi and StubApi conforms to this protocol. WebApi uses URLSession for networking and StubApi uses locally saved json files in order to use it as a backup in some cases to see a dummy result. By default WebAPi is injected to viewmodels but StubApi could also be injected without any side effects. 
 
 MVVM pattern was used and SOLID principles were used as much as I could. Some Unit Tests were created, but due the limited time the coverage was also limited. I would be glad to discuss this further in the interview.
+
+## Third Party Libraries
+
+Kingfisher is used for caching the images. It is easy to use and performs well in the project. 
+
+Swinject is used to manage injection of dependencies.
