@@ -17,7 +17,7 @@ enum Constants {
 	}
 	
 	enum ApiRequest {
-		static let apiKey = "XXX"
+		static let apiKey = "11c40ef31e4961acf4f98c8ff4e945d7"
 		static let method = "flickr.photos.search"
 	}
 }
