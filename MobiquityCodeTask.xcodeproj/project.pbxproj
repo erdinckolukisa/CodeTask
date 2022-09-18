@@ -25,6 +25,9 @@
 		FA4BB0CF28D0E60600EF33D7 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4BB0CE28D0E60600EF33D7 /* Enums.swift */; };
 		FA4BB0D128D0EA3700EF33D7 /* SearchProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4BB0D028D0EA3700EF33D7 /* SearchProviding.swift */; };
 		FA8D65F128D74A1500B1D42C /* PhotoItemViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8D65F028D74A1500B1D42C /* PhotoItemViewModelTests.swift */; };
+		FA8D65F528D75ADF00B1D42C /* stub.json in Resources */ = {isa = PBXBuildFile; fileRef = FA8D65F428D75ADF00B1D42C /* stub.json */; };
+		FA8D65F728D75BB900B1D42C /* StubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8D65F628D75BB900B1D42C /* StubAPI.swift */; };
+		FA8D65F928D75C9B00B1D42C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FA8D65F828D75C9B00B1D42C /* README.md */; };
 		FAB42F4228D3533400300338 /* ThumbImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB42F4128D3533400300338 /* ThumbImageView.swift */; };
 		FAB42F4728D3559B00300338 /* MainListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB42F4628D3559B00300338 /* MainListViewModelTests.swift */; };
 		FAB42F4928D3571200300338 /* MockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB42F4828D3571200300338 /* MockAPI.swift */; };
@@ -75,6 +78,9 @@
 		FA4BB0CE28D0E60600EF33D7 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		FA4BB0D028D0EA3700EF33D7 /* SearchProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProviding.swift; sourceTree = "<group>"; };
 		FA8D65F028D74A1500B1D42C /* PhotoItemViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoItemViewModelTests.swift; sourceTree = "<group>"; };
+		FA8D65F428D75ADF00B1D42C /* stub.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stub.json; sourceTree = "<group>"; };
+		FA8D65F628D75BB900B1D42C /* StubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubAPI.swift; sourceTree = "<group>"; };
+		FA8D65F828D75C9B00B1D42C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FAB42F4128D3533400300338 /* ThumbImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbImageView.swift; sourceTree = "<group>"; };
 		FAB42F4628D3559B00300338 /* MainListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModelTests.swift; sourceTree = "<group>"; };
 		FAB42F4828D3571200300338 /* MockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPI.swift; sourceTree = "<group>"; };
@@ -117,6 +123,7 @@
 		FA4BB07728D0B42000EF33D7 = {
 			isa = PBXGroup;
 			children = (
+				FA8D65F828D75C9B00B1D42C /* README.md */,
 				FA4BB08228D0B42000EF33D7 /* MobiquityCodeTask */,
 				FA4BB09928D0B42100EF33D7 /* MobiquityCodeTaskTests */,
 				FA4BB0A328D0B42100EF33D7 /* MobiquityCodeTaskUITests */,
@@ -173,6 +180,8 @@
 			children = (
 				FA4BB0B628D0B5A700EF33D7 /* Networking.swift */,
 				FA4BB0BA28D0B65C00EF33D7 /* WebAPI.swift */,
+				FA8D65F628D75BB900B1D42C /* StubAPI.swift */,
+				FA8D65F428D75ADF00B1D42C /* stub.json */,
 			);
 			path = Networtk;
 			sourceTree = "<group>";
@@ -415,8 +424,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA8D65F528D75ADF00B1D42C /* stub.json in Resources */,
 				FAD4C3D928D1E87D00A02F6F /* PhotoItemCollectionViewCell.xib in Resources */,
 				FA4BB09028D0B42100EF33D7 /* LaunchScreen.storyboard in Resources */,
+				FA8D65F928D75C9B00B1D42C /* README.md in Resources */,
 				FA4BB08D28D0B42100EF33D7 /* Assets.xcassets in Resources */,
 				FA4BB08B28D0B42000EF33D7 /* Main.storyboard in Resources */,
 				FAB42F4F28D3C2F100300338 /* SearchTableViewCell.xib in Resources */,
@@ -444,6 +455,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA8D65F728D75BB900B1D42C /* StubAPI.swift in Sources */,
 				FAB42F4228D3533400300338 /* ThumbImageView.swift in Sources */,
 				FA4BB0D128D0EA3700EF33D7 /* SearchProviding.swift in Sources */,
 				FA4BB0BB28D0B65C00EF33D7 /* WebAPI.swift in Sources */,
