@@ -9,6 +9,15 @@ import Foundation
 @testable import MobiquityCodeTask
 
 final class MockSearchProvider: SearchProviding {
+	var itemCount: Int {
+		return 0
+	}
 	
-	func addSearchKey(_ searchItem: String) { }
+	func getSavedItem(at index: Int) -> String? {
+		return "Item"
+	}
+	
+	func addSearchKey(_ searchItem: String) {
+		// NO-OP
+	}
 }

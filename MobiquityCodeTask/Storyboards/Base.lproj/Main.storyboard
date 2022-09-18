@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main List View Controller-->
+        <!--Flickr-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="MainListViewController" id="BYZ-38-t0r" customClass="MainListViewController" customModule="MobiquityCodeTask" customModuleProvider="target" sceneMemberID="viewController">
@@ -42,19 +42,34 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="oln-LW-B7y"/>
                                 </connections>
                             </collectionView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="h45-Du-i4N">
+                                <rect key="frame" x="20" y="88" width="374" height="200"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="GVn-f5-2pf"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="g9g-RW-yyq"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Fsp-gA-W3u"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="h45-Du-i4N" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="P1S-9G-usU"/>
                             <constraint firstItem="hd7-W9-ctx" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bSA-ZF-lOK"/>
+                            <constraint firstItem="h45-Du-i4N" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="et2-Ve-gcE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="h45-Du-i4N" secondAttribute="trailing" constant="20" id="jBb-ut-g8a"/>
                             <constraint firstItem="hd7-W9-ctx" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="rxx-YA-BaF"/>
                             <constraint firstItem="hd7-W9-ctx" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sL3-Zz-dJ1"/>
                             <constraint firstItem="hd7-W9-ctx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vpe-Su-fIC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="VSP-ly-J7d"/>
+                    <navigationItem key="navigationItem" title="Flickr" id="VSP-ly-J7d"/>
                     <connections>
                         <outlet property="photosCollectionView" destination="hd7-W9-ctx" id="1Fq-c2-H5f"/>
+                        <outlet property="searchHistoryTableView" destination="h45-Du-i4N" id="2lS-2x-rY4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -66,8 +81,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="p3U-6I-cYP" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fvX-Rf-QHn">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="fvX-Rf-QHn">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -81,4 +81,8 @@ extension MainListViewModelTests: MainListViewModelDelegate {
 		expectation?.fulfill()
 		expectation = nil
 	}
+	
+	func didUpdateSearchItems() {
+		// NO-OP
+	}
 }

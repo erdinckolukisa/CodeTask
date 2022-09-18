@@ -8,5 +8,7 @@
 import Foundation
 
 protocol SearchProviding {
+	var itemCount: Int { get }
 	func addSearchKey(_ searchItem: String)
+	func getSavedItem(at index: Int) -> String?
 }

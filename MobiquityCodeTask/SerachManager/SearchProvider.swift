@@ -21,16 +21,9 @@ final class SearchProvider {
 	}
 	
 	private func updateSearchSource(for searchItem: String) {
-		var foundIndex = -1
-		for (index, item) in savedSearchItems.enumerated() {
-			if item == searchItem {
-				foundIndex = index
-			}
-		}
-		
-		if foundIndex >= 0 {
+		if let foundIndex  = savedSearchItems.firstIndex(where: { $0 == searchItem }), foundIndex >= 0 {
 			savedSearchItems.remove(at: foundIndex)
-			savedSearchItems.append(searchItem)
+			savedSearchItems.insert(searchItem, at: 0)
 		}
 	}
 	
@@ -41,6 +34,10 @@ final class SearchProvider {
 
 extension SearchProvider: SearchProviding {
 	
+	var itemCount: Int {
+		return savedSearchItems.count
+	}
+	
 	func addSearchKey(_ searchItem: String) {
 		if isSearchItemExist(searchItem) {
 			updateSearchSource(for: searchItem)
@@ -49,5 +46,9 @@ extension SearchProvider: SearchProviding {
 		}
 		
 		save()
+	}
+	
+	func getSavedItem(at index: Int) -> String? {
+		return savedSearchItems[index]
 	}
 }

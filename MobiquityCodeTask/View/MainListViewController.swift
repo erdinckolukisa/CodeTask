@@ -10,6 +10,7 @@ import UIKit
 class MainListViewController: UIViewController {
 	
 	@IBOutlet weak var photosCollectionView: UICollectionView!
+	@IBOutlet weak var searchHistoryTableView: UITableView!
 	
 	var viewModel: MainListViewModel?
 	
@@ -19,21 +20,37 @@ class MainListViewController: UIViewController {
         super.viewDidLoad()
 		
 		prepareSearchBar()
+		prepareTableView()
 		prepareCollectionView()
 		
 		viewModel?.delegate = self
-		viewModel?.searchForPhotos(with: "Ferrari")
     }
+	
+	private func prepareSearchBar() {
+		searchController.searchResultsUpdater = self
+		navigationItem.searchController = searchController
+	}
+	
+	private func prepareTableView() {
+		searchHistoryTableView.layer.cornerRadius = 8.0
+		searchHistoryTableView.register(UINib(nibName: SearchTableViewCell.name, bundle: nil), forCellReuseIdentifier: CellIdentifiers.searchCell)
+	}
 	
 	private func prepareCollectionView() {
 		let nib = UINib(nibName: PhotoItemCollectionViewCell.name, bundle: nil)
 		photosCollectionView.register(nib, forCellWithReuseIdentifier: CellIdentifiers.photoCell)
 	}
 	
-	private func prepareSearchBar() {
-		searchController.searchResultsUpdater = self
-		searchController.searchBar.barStyle = .black
-		navigationItem.searchController = searchController
+	private func hideSearchResults() {
+		shouldHideSearchHistory(true)
+		view.isUserInteractionEnabled = true
+	}
+	
+	private func shouldHideSearchHistory(_ isHidden: Bool) {
+		let alpha: CGFloat = isHidden ? 0.0 : 1.0
+		UIView.animate(withDuration: 0.4) {[weak self] in
+			self?.searchHistoryTableView.alpha = alpha
+		}
 	}
 }
 
@@ -43,10 +60,23 @@ extension MainListViewController: MainListViewModelDelegate {
 	
 	func didFetchPhotos() {
 		photosCollectionView.reloadData()
+		hideSearchResults()
 	}
 	
 	func didFailFetching(error: NetworkErrors) {
-		// TODO: IMPLEMENT FAIL
+		var errorMessage = ""
+		switch error {
+			case .responseError(let message):
+				errorMessage = message
+			default:
+				errorMessage = Constants.Errors.genericError
+		}
+		hideSearchResults()
+		showCustomMessageAlert(message: errorMessage, title: "Error") { }
+	}
+	
+	func didUpdateSearchItems() {
+		searchHistoryTableView.reloadData()
 	}
 }
 
@@ -57,9 +87,45 @@ extension MainListViewController: UISearchResultsUpdating {
 		guard let searchText = searchController.searchBar.text, searchText.count > 0 else { return }
 		
 		view.isUserInteractionEnabled = false
+		hideSearchResults()
 		viewModel?.searchForPhotos(with: searchText)
+		shouldHideSearchHistory(false)
 	}
 }
+
+// MARK: - UITableViewDataSource
+
+extension MainListViewController: UITableViewDataSource {
+	func tableView(_ tableView: UITableView,
+				   numberOfRowsInSection section: Int) -> Int {
+		return viewModel?.savedItemsCount ?? 0
+	}
+	
+	func tableView(_ tableView: UITableView,
+				   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		if let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.searchCell) as? SearchTableViewCell {
+			let item = viewModel?.getSavedItem(at: indexPath.row)
+			cell.displaySavedItem(item)
+			
+			return cell
+		}
+		
+		return UITableViewCell()
+	}
+}
+
+// MARK: - UITableViewDelegate
+
+extension MainListViewController: UITableViewDelegate {
+	func tableView(_ tableView: UITableView,
+				   didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: false)
+		viewModel?.searchForTheSavedItem(at: indexPath.row)
+		searchController.searchBar.text = viewModel?.getSavedItem(at: indexPath.row)
+		shouldHideSearchHistory(true)
+	}
+}
+
 
 // MARK: - UICollectionViewDataSource
 

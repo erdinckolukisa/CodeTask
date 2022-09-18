@@ -10,6 +10,7 @@ import Foundation
 protocol MainListViewModelDelegate: AnyObject {
 	func didFetchPhotos()
 	func didFailFetching(error: NetworkErrors)
+	func didUpdateSearchItems()
 }
 
 final class MainListViewModel {
@@ -31,6 +32,10 @@ final class MainListViewModel {
 	
 	var numberOfPhotos: Int {
 		return photos.count
+	}
+	
+	var savedItemsCount: Int {
+		return searchManager.itemCount
 	}
 	
 	private func fetchPhotosFor(searchText: String) {
@@ -61,9 +66,13 @@ final class MainListViewModel {
 			self.photos.removeAll()
 			self.searchText = text
 			self.fetchPhotosFor(searchText: text)
+			self.searchManager.addSearchKey(text)
+			self.delegate?.didUpdateSearchItems()
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: workItem!)
+		guard let workItem = workItem else { return }
+
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: workItem)
 	}
 	
 	func checkForLoadMore(for indexPath: IndexPath) {
@@ -74,5 +83,15 @@ final class MainListViewModel {
 	
 	func getPhotoItem(at index: Int) -> PhotoItemViewModel? {
 		return photos[index]
+	}
+	
+	func getSavedItem(at index: Int) -> String? {
+		return searchManager.getSavedItem(at: index)
+	}
+	
+	func searchForTheSavedItem(at index: Int) {
+		if let savedItemTitle = getSavedItem(at: index) {
+			searchForPhotos(with: savedItemTitle)
+		}
 	}
 }
