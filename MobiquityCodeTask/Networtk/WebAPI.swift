@@ -20,18 +20,12 @@ final class WebAPI: Networking {
 	private func createQueryItems(searchText: String, pageNumber: Int) -> [URLQueryItem] {
 		var queryItems = [URLQueryItem]()
 		
-		let queryItemMethod = URLQueryItem(name: "method", value: Constants.ApiRequest.method)
-		let queryItemApiKey = URLQueryItem(name: "api_key", value: Constants.ApiRequest.apiKey)
-		let queryItemFormat = URLQueryItem(name: "format", value: "json")
-		let queryItemCallback = URLQueryItem(name: "nojsoncallback", value: "1")
-		let queryItemText = URLQueryItem(name: "text", value: searchText)
-		let queryItemPage = URLQueryItem(name: "page", value: "\(pageNumber)")
-		queryItems.append(queryItemMethod)
-		queryItems.append(queryItemApiKey)
-		queryItems.append(queryItemFormat)
-		queryItems.append(queryItemCallback)
-		queryItems.append(queryItemText)
-		queryItems.append(queryItemPage)
+		queryItems.append(URLQueryItem(name: "method", value: Constants.ApiRequest.method))
+		queryItems.append(URLQueryItem(name: "api_key", value: Constants.ApiRequest.apiKey))
+		queryItems.append(URLQueryItem(name: "format", value: "json"))
+		queryItems.append(URLQueryItem(name: "nojsoncallback", value: "1"))
+		queryItems.append(URLQueryItem(name: "text", value: searchText))
+		queryItems.append(URLQueryItem(name: "page", value: "\(pageNumber)"))
 		
 		return queryItems
 	}
